@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import biblioteca.db.DB;
@@ -132,16 +133,55 @@ public class LivroDaoJDBC implements LivroDao{
 	//METODO PARA DELETAR PO ID
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
 		
+		PreparedStatement st = null;
+		
+		try {
+			st = conn.prepareStatement("DELETE FROM livro WHERE id = ?");
+			
+			st.setInt(1, id);
+			
+			int rowsAffected = st.executeUpdate();
+			
+			System.out.println(rowsAffected);
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 	}
 
 	
 	//METODO PARA BUSCAR TODOS OS DADOS
 	@Override
 	public List<Livro> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			st = conn.prepareStatement("SELECT * FROM livro ORDER BY id");
+			
+			rs = st.executeQuery();
+			
+			List<Livro> list = new ArrayList<Livro>();
+			
+			while(rs.next()) {
+				Livro livro = instanciaLivro(rs);
+				list.add(livro);
+			}
+			return list;
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 	
 	
