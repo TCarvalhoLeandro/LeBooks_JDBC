@@ -1,11 +1,11 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import biblioteca.entities.Livro;
+import biblioteca.model.dao.DaoFactory;
+import biblioteca.model.dao.LivroDao;
 
 public class TesteConexao {
 
 	public static void main(String[] args) {
-		// Substitua pelos seus dados reais
+		/*// Substitua pelos seus dados reais
 		String url = "jdbc:mysql://root@127.0.0.1:3306/LeandroDataBase";
 		String user = "Leandro_DataBase"; // ou "root"
 		String password = "1234567";
@@ -22,6 +22,15 @@ public class TesteConexao {
 		} catch (Exception e) {
 			System.err.println("Erro de Driver não encontrado? " + e.getMessage());
 		}
+		*/
+		
+		LivroDao livroDao = DaoFactory.createLivroDao();
+		
+		System.out.println("\nTESTE 04: Seller insert: ");
+		
+		Livro livro = new Livro(null, "Memórias Póstumas de Brás Cubas", "Macahado de Assis", 1881, true); 
+		livroDao.insert(livro);
+		System.out.println("Insert new seller id: " + livro.getId());
 	}
 }
 

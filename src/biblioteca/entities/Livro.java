@@ -6,7 +6,7 @@ public class Livro implements Salvar{// implemetando a interface Salvar
 	
 	private static int contador = 0;
 	
-	private int id;// id do livro
+	private Integer id;// id do livro
 	private String titulo;//nome do livro
 	private String autor;//nome do autor
 	private int ano;//ano de publicação
@@ -18,7 +18,7 @@ public class Livro implements Salvar{// implemetando a interface Salvar
 	}
 	
 	//construtor com todos os atributos
-	public Livro(int id, String titulo, String autor, int ano, boolean disponivel) {
+	public Livro(Integer id, String titulo, String autor, int ano, boolean disponivel) {
 		this.id = id;
 		this.titulo = titulo;
 		this.autor = autor;
@@ -27,11 +27,11 @@ public class Livro implements Salvar{// implemetando a interface Salvar
 		contador++;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
