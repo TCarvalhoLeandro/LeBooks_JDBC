@@ -2,6 +2,7 @@ import biblioteca.entities.Livro;
 import biblioteca.model.dao.DaoFactory;
 import biblioteca.model.dao.LivroDao;
 
+
 public class TesteConexao {
 
 	public static void main(String[] args) {
@@ -26,11 +27,21 @@ public class TesteConexao {
 		
 		LivroDao livroDao = DaoFactory.createLivroDao();
 		
-		System.out.println("\nTESTE 04: Seller insert: ");
-		
+		/*System.out.println("\nTESTE 01: Seller insert: ");	
 		Livro livro = new Livro(null, "Memórias Póstumas de Brás Cubas", "Macahado de Assis", 1881, true); 
 		livroDao.insert(livro);
 		System.out.println("Insert new seller id: " + livro.getId());
+		
+		System.out.println("TESTE 02: Livro findById: ");
+		Livro livro = livroDao.findById(1);
+		System.out.println(livro);*/
+		
+		
+		System.out.println("\nTESTE 03: Livro update: ");
+		Livro livro = livroDao.findById(1);
+		livro.setTitulo("Quincas Borba");
+		livroDao.update(livro);
+		System.out.println("Update!!");
 	}
 }
 
