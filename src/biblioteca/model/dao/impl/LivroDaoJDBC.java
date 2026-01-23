@@ -103,7 +103,7 @@ public class LivroDaoJDBC implements LivroDao{
 	@Override
 	public void update(Livro livro) {
 		PreparedStatement st = null;
-		ResultSet rs = null;
+		
 		
 		try {
 			

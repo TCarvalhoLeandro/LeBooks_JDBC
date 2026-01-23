@@ -6,7 +6,7 @@ public class Leitor implements Salvar{// implemetando a interface Salvar
 	
 	private static int contador = 0;
 	
-	private int id;//id do leitor
+	private Integer id;//id do leitor
 	private String nome;// nome do leitor
 	private String cpf;//cpf do leitor
 	private String email;//email do leitor
@@ -17,7 +17,7 @@ public class Leitor implements Salvar{// implemetando a interface Salvar
 	}
 
 	//construtor com todos os argumentos
-	public Leitor(int id, String nome, String cpf, String email) {
+	public Leitor(Integer id, String nome, String cpf, String email) {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
@@ -25,11 +25,11 @@ public class Leitor implements Salvar{// implemetando a interface Salvar
 		contador++;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

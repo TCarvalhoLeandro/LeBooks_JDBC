@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import biblioteca.entities.Livro;
+import biblioteca.entities.Leitor;
 import biblioteca.model.dao.DaoFactory;
+import biblioteca.model.dao.LeitorDao;
 import biblioteca.model.dao.LivroDao;
 
 
@@ -51,7 +52,7 @@ public class TesteConexao {
 		
 		System.out.println("\nTESTE 04: Livro deleteById: ");
 		livroDao.deleteById(2);
-		*/
+		
 		
 		List<Livro> list = new ArrayList<Livro>();
 		list = livroDao.findAll();
@@ -59,6 +60,44 @@ public class TesteConexao {
 		for(Livro obj: list) {
 			System.out.println(obj);
 		}
+		*/
+		
+		LeitorDao leitorDao = DaoFactory.createLeitorDao();
+		/*
+		System.out.println("\nTESTE 01: Leitor insert: ");	
+		Leitor leitor = new Leitor(null, "Alicia Violet", "12345678902", "alicia@gmail.com"); 
+		leitorDao.insert(leitor);
+		System.out.println("Insert new leitor id: " + leitor.getId());
+		
+		
+		System.out.println("\nTESTE 02: Leitor findById: ");
+		Leitor leitorFindById = leitorDao.findById(1);
+		System.out.println(leitorFindById);
+		
+		
+		System.out.println("\nTESTE 03: Leitor update: ");
+		Leitor leitorUpdate = leitorDao.findById(1);
+		leitorUpdate.setEmail("julia@gmail.com");
+		leitorDao.update(leitorUpdate);
+		System.out.println("Update!!!!!!!!");
+		*/
+		
+		System.out.println("\nTESTE 04: Leitor deleteById");
+		leitorDao.deleteById(3);
+		System.out.println("Delete!!!!!!");
+		
+		
+		/*
+		System.out.println("\nTESTE 05: Leitor findAll ");
+		List<Leitor> list = new ArrayList<Leitor>();
+		list = leitorDao.findAll();
+		
+		for(Leitor obj: list) {
+			System.out.println(obj);
+		}
+		*/
+		
+		
 	}
 }
 
