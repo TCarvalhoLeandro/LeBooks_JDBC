@@ -121,10 +121,12 @@ public class EmprestimoDaoJDBC implements EmprestimoDao{
 		try {
 			st = conn.prepareStatement(
 							// SQL focado apenas nos registros onde devolvido é false
-							"SELECT emprestimo.*, leitor.*, livro.* " + // Traz todas as colunas das 3 tabelas
-				            "FROM emprestimo " +
-				            "INNER JOIN leitor ON emprestimo.id_leitor = leitor.id " +
-				            "INNER JOIN livro ON emprestimo.id_livro = livro.id " +
+							"SELECT emprestimo.*, " +
+						    "leitor.id AS leitor_id_col, leitor.nome AS leitor_nome_col, " + // Apelidos para Leitor
+						    "livro.id AS livro_id_col, livro.titulo AS livro_titulo_col " + // Apelidos para Livro
+						    "FROM emprestimo " +
+						    "INNER JOIN leitor ON emprestimo.id_leitor = leitor.id " +
+						    "INNER JOIN livro ON emprestimo.id_livro = livro.id " +
 				            "WHERE emprestimo.devolvido = false " + // Filtro de ativos
 				            "ORDER BY emprestimo.data_devolucao ASC"); // Ordena pelos que vencem primeiro
 			
@@ -140,13 +142,17 @@ public class EmprestimoDaoJDBC implements EmprestimoDao{
 				
 				Leitor leitor = leitorMap.get(rs.getInt("id_leitor"));
 				if(leitor == null) {
-					leitor = LeitorDaoJDBC.instanciaLeitor(rs);
+					leitor = new Leitor();
+					leitor.setId(rs.getInt("leitor_id_col"));
+					leitor.setNome(rs.getString("leitor_nome_col"));
 					leitorMap.put(rs.getInt("id_leitor"), leitor);
 				}
 				
 				Livro livro = livroMap.get(rs.getInt("id_livro"));
 				if(livro == null) {
-					livro = LivroDaoJDBC.instanciaLivro(rs);
+					livro = new Livro();
+					livro.setId(rs.getInt("livro_id_col")); // Usa o apelido do SQL
+			        livro.setTitulo(rs.getString("livro_titulo_col"));
 					livroMap.put(rs.getInt("id_livro"), livro);
 				}
 				
@@ -179,11 +185,13 @@ public class EmprestimoDaoJDBC implements EmprestimoDao{
 		try {
 			// Usamos aliases (e.*, lt.*, lv.*) para garantir que todas as colunas venham no ResultSet
 			st = conn.prepareStatement(
-					"SELECT emprestimo.*, leitor.*, livro.* " + // Traz todas as colunas das 3 tabelas
-		            "FROM emprestimo " +
-		            "INNER JOIN leitor ON emprestimo.id_leitor = leitor.id " +
-		            "INNER JOIN livro ON emprestimo.id_livro = livro.id " +
-		            "WHERE emprestimo.id = ?");
+							"SELECT emprestimo.*, " +
+						    "leitor.id AS leitor_id_col, leitor.nome AS leitor_nome_col, " + // Apelidos para Leitor
+						    "livro.id AS livro_id_col, livro.titulo AS livro_titulo_col " + // Apelidos para Livro
+						    "FROM emprestimo " +
+						    "INNER JOIN leitor ON emprestimo.id_leitor = leitor.id " +
+						    "INNER JOIN livro ON emprestimo.id_livro = livro.id " +
+		            		"WHERE emprestimo.id = ?");
 			
 			st.setInt(1, id);
 			
@@ -191,10 +199,14 @@ public class EmprestimoDaoJDBC implements EmprestimoDao{
 			
 			if(rs.next()) {
 				
-				// Agora o 'rs' tem as colunas do leitor (ex: nome, email) 
-	            // e do livro (ex: titulo, autor), então os métodos abaixo funcionam!
-				Leitor leitor = LeitorDaoJDBC.instanciaLeitor(rs);
-				Livro livro = LivroDaoJDBC.instanciaLivro(rs);
+				// RETORNAR AQUI=============================================
+				Leitor leitor = new Leitor();
+				leitor.setId(rs.getInt("leitor_id_col"));
+				leitor.setNome(rs.getString("leitor_nome_col"));
+				
+				Livro livro = new Livro();
+				livro.setId(rs.getInt("livro_id_col")); // Usa o apelido do SQL
+		        livro.setTitulo(rs.getString("livro_titulo_col"));
 				
 				// Monta o objeto Emprestimo associando os dois objetos acima
 				Emprestimo emp = instanciaEmprestimo(rs, leitor, livro);
@@ -224,11 +236,13 @@ public class EmprestimoDaoJDBC implements EmprestimoDao{
 		try {
 			// SQL com join para trazer os dados completos de Leitor e Livro
 			st = conn.prepareStatement(
-							"SELECT emprestimo.*, leitor.*, livro.* " + // Traz todas as colunas das 3 tabelas
-				            "FROM emprestimo " +
-				            "INNER JOIN leitor ON emprestimo.id_leitor = leitor.id " +
-				            "INNER JOIN livro ON emprestimo.id_livro = livro.id " +
-				            "ORDER BY data_emprestimo DESC"); // Mais recentes primeiro
+							"SELECT emprestimo.*, " +
+						    "leitor.id AS leitor_id_col, leitor.nome AS leitor_nome_col, " + // Apelidos para Leitor
+						    "livro.id AS livro_id_col, livro.titulo AS livro_titulo_col " + // Apelidos para Livro
+						    "FROM emprestimo " +
+						    "INNER JOIN leitor ON emprestimo.id_leitor = leitor.id " +
+						    "INNER JOIN livro ON emprestimo.id_livro = livro.id " +
+						    "ORDER BY data_emprestimo DESC"); // Mais recentes primeiro
 					
 			rs = st.executeQuery();
 			
@@ -245,7 +259,9 @@ public class EmprestimoDaoJDBC implements EmprestimoDao{
 				
 				if(leitor == null) {
 					// Se não existe no Map, usamos o seu método estático pra criar e guardar
-					leitor = LeitorDaoJDBC.instanciaLeitor(rs);
+					leitor = new Leitor();
+					leitor.setId(rs.getInt("leitor_id_col"));
+					leitor.setNome(rs.getString("leitor_nome_col"));
 					leitorMap.put(rs.getInt("id_leitor"), leitor);// adiciona na tabela hash com o id como chave
 					
 				}
@@ -254,7 +270,9 @@ public class EmprestimoDaoJDBC implements EmprestimoDao{
 				Livro livro = livroMap.get(rs.getInt("id_livro"));
 				
 				if(livro == null) {
-					livro = LivroDaoJDBC.instanciaLivro(rs);
+					livro = new Livro();
+					livro.setId(rs.getInt("livro_id_col")); // Usa o apelido do SQL
+			        livro.setTitulo(rs.getString("livro_titulo_col"));
 					livroMap.put(rs.getInt("id_livro"), livro);
 				}
 				

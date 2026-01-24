@@ -7,9 +7,11 @@ import java.io.InputStreamReader;
 //import biblioteca.core.Biblioteca;
 import biblioteca.db.DB;
 import biblioteca.model.dao.DaoFactory;
+import biblioteca.model.dao.EmprestimoDao;
 //import biblioteca.model.dao.EmprestimoDao;
 import biblioteca.model.dao.LeitorDao;
 import biblioteca.model.dao.LivroDao;
+import biblioteca.ui.MenuEmprestimo;
 //import biblioteca.ui.MenuEmprestimo;
 import biblioteca.ui.MenuLeitor;
 import biblioteca.ui.MenuLivros;
@@ -54,14 +56,14 @@ public class Program {
         // 2. Criamos a conexão e as DAOs (usando Factory para ficar profissional)
 		LivroDao livroDao = DaoFactory.createLivroDao();
 		LeitorDao leitorDao = DaoFactory.createLeitorDao();
-		//EmprestimoDao emprestimoDao = DaoFactory.createEmprestimoDao();
+		EmprestimoDao emprestimoDao = DaoFactory.createEmprestimoDao();
 		
 		// 3. Injetamos as DAOs diretamente nos menus
 		MenuLivros menuLivros = new MenuLivros(livroDao);
 		MenuLeitor menuLeitor = new MenuLeitor(leitorDao);
 		
 		// No MenuEmprestimo, você pode passar as três se precisar validar livros/leitores
-		//MenuEmprestimo menuEmprestimo = new MenuEmprestimo(emprestimoDao, livroDao, leitorDao);
+		MenuEmprestimo menuEmprestimo = new MenuEmprestimo(emprestimoDao);
 		
 		
 		/* Loop de interação com o usuario */
@@ -86,7 +88,7 @@ public class Program {
 					menuLeitor.exibeMenuLeitor();
 					break;// switch externo (Gerenciar Leitor) case 2
 				case 3:
-					//menuEmprestimo.exibeMenuEmprestimo();
+					menuEmprestimo.exibeMenuEmprestimo();
 					break;// switch externo (Emprestimo e Devolucoes) case 3
 				case 0:
 					System.out.println("Encerrando e fechando a conexão....");

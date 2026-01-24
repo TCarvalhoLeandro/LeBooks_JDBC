@@ -136,7 +136,7 @@ public class Emprestimo implements Serializable{// implementando serializable
 	}
 	*/
 	
-	/*=================================>> MELHORAR ESSA PARTE*/
+	/*=================================>> MELHORAR ESSA PARTE
 	public String toStringEmprestimo() {
 		return id + " - " + leitor.getNome() + " - " + livro.getTitulo() + " - " + dataEmprestimo ;
 	}
@@ -144,10 +144,23 @@ public class Emprestimo implements Serializable{// implementando serializable
 	public String toStringDevolucao() {
 		return id + " - " + leitor.getNome() + " - " + livro.getTitulo() + " - " + dataEmprestimo + " - " + dataDevolucao;
 	}
-	
+	*/
 	@Override
 	public String toString() {
-		return id + " - " + leitor.getNome() + " - " + livro.getTitulo() + " - " + dataEmprestimo + " - " + dataDevolucao;
+		return  id + " - " 
+	            + leitor.getNome() 
+	            + " [" 
+	            + leitor.getId() 
+	            + "] - "
+	            + livro.getTitulo() 
+	            + " [" 
+	            + livro.getId() 
+	            + "] - " 
+	            + dataEmprestimo 
+	            + " - " 
+	            + dataDevolucao;
+		
+		
 	}
 	
 }

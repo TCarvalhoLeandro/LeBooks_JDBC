@@ -1,18 +1,23 @@
 package biblioteca.ui;
 
 import java.io.BufferedReader;
-import java.io.IOException;
+
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
-import biblioteca.core.Biblioteca;
-import biblioteca.domainException.DadosException;
+import biblioteca.db.DB;
+import biblioteca.db.DbException;
+
 import biblioteca.entities.Emprestimo;
 import biblioteca.entities.Leitor;
 import biblioteca.entities.Livro;
+import biblioteca.model.dao.DaoFactory;
 import biblioteca.model.dao.EmprestimoDao;
+import biblioteca.model.dao.LeitorDao;
+import biblioteca.model.dao.LivroDao;
 
 public class MenuEmprestimo {
 
@@ -22,10 +27,7 @@ public class MenuEmprestimo {
 	
 	//Biblioteca biblioteca = new Biblioteca();
 	private EmprestimoDao emprestimoDao;
-	
-	
-	
-	public MenuEmprestimo(BufferedReader br, DateTimeFormatter fmt, EmprestimoDao emprestimoDao) {
+	public MenuEmprestimo(EmprestimoDao emprestimoDao) {
 		this.emprestimoDao = emprestimoDao;
 	}
 
@@ -40,112 +42,107 @@ public class MenuEmprestimo {
 			while(true) {
 				System.out.println("=".repeat(15) + " EMPRESTIMOS E DEVOLUCOES " + "=".repeat(15));
 				
-				System.out.println("1 - Emprestimo ");
-				System.out.println("2 - Listar emprestimo por leitor");
-				System.out.println("3 - Listar emprestimo por livro ");
-				System.out.println("4 - Lista todos os emprestimos ");
-				System.out.println("5 - Devolucao ");
+				System.out.println("1 - Registrar Empréstimo ");
+				System.out.println("2 - Registrar Devolução");
+				System.out.println("3 - Listar Empréstimos Ativos ");
+				System.out.println("4 - Buscar Empréstimo por Id ");
+				System.out.println("5 - Listar Todos Empréstimos ");
 				System.out.println("0 - Voltar");
 				System.out.println();
 				System.out.print("Digite a opcao desejada: ");
 				int opcao3 = Integer.parseInt(br.readLine());
+				
 				System.out.println();
+				
 				switch(opcao3) {// switch externo (Emprestimo e Devolucoes) case 3
-				case 1:
-					System.out.print("ID: ");
-					int id = Integer.parseInt(br.readLine());
+				
+				case 1:// insert
 					
 					System.out.print("ID Leitor: ");
 					int idLeitor = Integer.parseInt(br.readLine());
-					Leitor leitorEmp = biblioteca.buscarLeitor(idLeitor);
+					
+					LeitorDao leitorDao = DaoFactory.createLeitorDao();// Conexao com o banco??
+					Leitor leitorEmp = leitorDao.findById(idLeitor);
 					
 					System.out.print("ID Livro: ");
 					int idLivro = Integer.parseInt(br.readLine());
-					Livro livroEmp = biblioteca.buscarLivro(idLivro);
 					
-					System.out.print("Data emprestimo (dd/MM/yyyy): ");
+					LivroDao livroDao = DaoFactory.createLivroDao();
+					Livro livroEmp = livroDao.findById(idLivro);
+					
+					/*System.out.print("Data emprestimo (dd/MM/yyyy): ");
 					String entrada = br.readLine();
 					LocalDate dataEmprestimo = LocalDate.parse(entrada, fmt);
 					//System.out.println("Data devolucao (dd/MM/yyyy): ");
 					//entrada = br.readLine();
-					//LocalDate dataDevolucao = LocalDate.parse(entrada, fmt);
-					
-					boolean disponivel = false;
+					//LocalDate dataDevolucao = LocalDate.parse(entrada, fmt);*/
 					
 					// Aqui o Leitor e o Livro sao associados no emprestimo
-					Emprestimo emprestimo = new Emprestimo(id, leitorEmp, livroEmp, dataEmprestimo, disponivel);
-					System.out.println();
+					Emprestimo emprestimo = new Emprestimo(null, leitorEmp, livroEmp,LocalDate.now(),false);
 					
-					biblioteca.emprestimo(emprestimo);
+					emprestimoDao.insert(emprestimo);
+					System.out.println("Sucesso!!");
 					System.out.println();
 					break;
-				case 2:
-					System.out.println("Lista de emprestimos por leitor: ");
-					System.out.println("Leitor ID:  ");
-					idLeitor = Integer.parseInt(br.readLine());// pega o id do leitor
 					
-					// chama o metodo passando o id do leitor
-					List<Livro> livrosEmprestados = biblioteca.listarLivrosDoLeitor(idLeitor);
+				case 2:// registerReturn
+					System.out.println("Digite o id do emprestimo para registrar a devolução: ");
+					int idDevolucao = Integer.parseInt(br.readLine());// pega o id do emprestimo
 					
-					if(livrosEmprestados.isEmpty()) {
-						System.out.println("Nenhum livro encontado para o leitor " + idLeitor);
-					}
-					else {
-						System.out.println("Livros emprestados: ");
-						for(Livro livro: livrosEmprestados) {
-							System.out.println(livro);
-						}
-					}
+					Emprestimo devolucao = emprestimoDao.findById(idDevolucao);
+					emprestimoDao.registerReturn(devolucao);
+					
+					System.out.println("Sucesso!!");
+					System.out.println();
 					break;
-				case 3:
-					System.out.println("Lista de emprestimo de livro: ");
-					System.out.println("Livro ID:  ");
-					idLivro = Integer.parseInt(br.readLine());// pega o id do livro
 					
-					// chama o metodo passando o id do livro
-					Leitor LeitorComLivro = biblioteca.listarLeitorComLivro(idLivro);
+				case 3:// findAtivos
+					System.out.println("Lista de Emprestimos Ativos: ");
 					
-					if(LeitorComLivro == null) {
-						System.out.println("Nenhum emprestimo encontado para o livro " + idLivro);
-					}
-					else {
-						System.out.println("O livro " + idLivro + " esta com: ");
-						System.out.println(LeitorComLivro);
+					List<Emprestimo> listEmp = new ArrayList<Emprestimo>();
+					
+					listEmp = emprestimoDao.findAtivos();
+					
+					for(Emprestimo obj: listEmp) {
+						System.out.println(obj);
 					}
 					
+					System.out.println();
+					
 					break;
-				case 4:
-					System.out.println("Lista todos os emprestimos ativos: ");
-					System.out.println();
-					biblioteca.listaEmprestimo();
-					System.out.println();
-					break;
-				case 5:
-					System.out.println();
-					System.out.println("Devolucao: ");
-					System.out.println();
-					System.out.print("Titulo: ");
-					String devolucao = br.readLine();
-					biblioteca.devolucao(devolucao);
+					
+				case 4:// findById
+					System.out.println("Digite o id para buscar um emprestimo: ");
+					int empById = Integer.parseInt(br.readLine());
+					
+					Emprestimo buscaEmp = emprestimoDao.findById(empById);
+					System.out.println(buscaEmp);
+					
 					System.out.println();
 					break;
-				default:
-					if(opcao3 != 0) System.out.println("Digito invalido.");
-				}//switch interno
-				//O if (opcao3 == 0) break; faz sair do loop (e voltar pro menu principal).
-				if(opcao3 == 0) {
-					System.err.println("Voltando ao menu anterior...");
+					
+				case 5:// findAll
+					System.out.println("Lista de emprestimos: ");
+
+					List<Emprestimo> listTodosEmp = new ArrayList<Emprestimo>();
+					listTodosEmp = emprestimoDao.findAll();
+					
+					for(Emprestimo obj: listTodosEmp) {
+						System.out.println(obj);
+					}
+					System.out.println();
 					break;
+				case 0:
+					System.err.println("Encerrando e fechando a conexão....");
+					DB.closseConnection();
+					return;
 				}
 			}
-		}
-		catch(IOException e) {
-			System.err.println("Erro de leitura." + e.getMessage());
 		}
 		catch(NumberFormatException e) {
 			System.err.println("Valor invalido. Digite somente numeros.");
 		}
-		catch(DadosException e) {
+		catch(DbException e) {
 			System.err.println("Erro: " + e.getMessage());
 		}
 		catch(Exception e) {
