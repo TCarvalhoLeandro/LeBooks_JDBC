@@ -1,12 +1,15 @@
 package biblioteca.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-import biblioteca.service.Salvar;
+//import biblioteca.service.Salvar;
 
-public class Emprestimo implements Salvar{// implementando a interface Salvar
+public class Emprestimo implements Serializable{// implementando serializable
 	
-	private static int contador = 0;
+	private static final long serialVersionUID = 1L;
+	
+	//private static int contador = 0;
 	
 	private Integer id;// id do emprestimo
 	private Leitor leitor;
@@ -17,7 +20,7 @@ public class Emprestimo implements Salvar{// implementando a interface Salvar
 	
 	//construtor padrão
 	public Emprestimo() {
-		contador++;
+		//contador++;
 	}
 	
 	public Emprestimo(Integer id, Leitor leitor, Livro livro, LocalDate dataEmprestimo) {
@@ -34,7 +37,7 @@ public class Emprestimo implements Salvar{// implementando a interface Salvar
 		this.livro = livro;
 		this.dataEmprestimo = dataEmprestimo;
 		this.devolvido = devolvido;
-		contador++;
+		//contador++;
 	}
 
 	public Emprestimo(Integer id, Leitor leitor, Livro livro, LocalDate dataEmprestimo, LocalDate dataDevolucao,
@@ -45,7 +48,7 @@ public class Emprestimo implements Salvar{// implementando a interface Salvar
 		this.dataEmprestimo = dataEmprestimo;
 		this.dataDevolucao = dataDevolucao;
 		this.devolvido = devolvido;
-		contador++;
+		//contador++;
 	}
 
 	public Integer getId() {
@@ -100,6 +103,7 @@ public class Emprestimo implements Salvar{// implementando a interface Salvar
 		this.dataDevolucao = LocalDate.now();
 	}
 	
+	/*
 	public static int getContador() {
 		return contador;
 	}
@@ -112,12 +116,12 @@ public class Emprestimo implements Salvar{// implementando a interface Salvar
 		return 1;
 	}
 	
-	/*METODO INTERFACE PRA SALVAR EM .CSV*/
+	/*METODO INTERFACE PRA SALVAR EM .CSV
 	@Override
 	public String toCSV() {
 		/*dataDevolucao diferente de null?
 		 * SIM: dataDev = dataDevolucao.toString()
-		 * NAO: dataDev = " "*/
+		 * NAO: dataDev = " "
 		String dataDev = (dataDevolucao != null) ? dataDevolucao.toString() : "";
 		return id + ";" 
 				  + leitor.getId() 
@@ -130,6 +134,7 @@ public class Emprestimo implements Salvar{// implementando a interface Salvar
 				  + ";" 
 				  + devolvido;
 	}
+	*/
 	
 	/*=================================>> MELHORAR ESSA PARTE*/
 	public String toStringEmprestimo() {

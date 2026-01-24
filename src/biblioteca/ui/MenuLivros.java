@@ -1,26 +1,34 @@
 package biblioteca.ui;
 
 import java.io.BufferedReader;
-import java.io.IOException;
+
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.util.List;
 
-import biblioteca.core.Biblioteca;
+
+import biblioteca.db.DbException;
 import biblioteca.domainException.DadosException;
 import biblioteca.entities.Livro;
-import biblioteca.util.CSVUtil;
+import biblioteca.model.dao.LivroDao;
+
 
 public class MenuLivros {
 
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	private Biblioteca biblioteca;// Declaramos a referencia
-
-	// O construtor recebe a instância de Biblioteca
-	public MenuLivros(Biblioteca biblioteca) {
-		// Inicializa a dependência
-		this.biblioteca = biblioteca;
-	}
 	
+	/*1. Alteração das Dependências
+    Em vez de receber a classe Biblioteca no construtor, agora você deve receber a 
+    interface LivroDao. Isso é o que chamamos de Injeção de Dependência.*/
+	
+	private LivroDao livroDao; // Referencia para a interface DAO
+	
+	public MenuLivros(LivroDao livroDao) {
+		this.livroDao = livroDao;
+	}
+
+
+
 	// O código de interação deve estar dentro de um método
 	public void exibeMenuLivro() {
 		try {
@@ -31,7 +39,7 @@ public class MenuLivros {
 				System.out.println("2 - Listar");
 				System.out.println("3 - Remover");
 				System.out.println("4 - Buscar");
-				System.out.println("5 - Salvar");
+				System.out.println("5 - Atualizar Dados");
 				System.out.println("0 - Voltar");
 				
 				System.out.println();
@@ -41,9 +49,6 @@ public class MenuLivros {
 				System.out.println();
 				switch (opcao1) {// switch menu livros
 				case 1:
-					System.out.print("ID: ");
-					int id = Integer.parseInt(br.readLine());
-					
 					System.out.print("Titulo: ");
 					String titulo = br.readLine();
 					
@@ -56,51 +61,95 @@ public class MenuLivros {
 						//Apenas por motivos didaticos, pq um livro pode ter sido publicado antes de 1800 facilmente
 						throw new DadosException("Ano invalido. Periodo permitido 1800 a " + LocalDate.now().getYear());
 					}
-					
-					boolean disponivel = true;
 	
-					Livro livro = new Livro(id, titulo, autor, ano, disponivel);
+					Livro livro = new Livro(null, titulo, autor, ano, true);
 	
-					biblioteca.cadastrarLivro(livro);
+					livroDao.insert(livro);
 	
 					System.out.println();
 					System.out.println("Livro cadastrado com sucesso.");
 					System.out.println();
 					break;
+					
 				case 2:
 					System.out.println("Lista de Livros: ");
 					System.out.println();
 					
-					if(biblioteca.getLivros().isEmpty()) {
+					List<Livro> list = livroDao.findAll();
+					
+					if(list.isEmpty()) {
 						throw new DadosException("Lista vazia.");
 					}
-					biblioteca.listarLivro();
+					else {
+						for(Livro obj: list) {
+							System.out.println(obj);
+						}
+					}
 					System.out.println();
 					break;
-				case 3:
-					System.out.print("Remover livro, titulo: ");
-					String remove = br.readLine();
 					
-					biblioteca.removerLivro(remove);
+				case 3:
+					System.out.print("Digite o id para remover: ");
+					int remove = Integer.parseInt(br.readLine());
+					
+					livroDao.deleteById(remove);
 					System.out.println();
 					break;
+					
 				case 4:
-					System.out.print("Busca ID: ");
+					System.out.print("Digite o id do livro para buscar: ");
 					int busca = Integer.parseInt(br.readLine());
 	
-					System.out.println(biblioteca.buscarLivro(busca));
+					Livro livroById = livroDao.findById(busca);
+					System.out.println(livroById);
+					
+					System.out.println();
 					break;
-				case 5: 
-					try {
-						if(Livro.getContador() > 0) {// só vai escrever no arquivo se for instanciado
-					  		CSVUtil.salvarCSV(biblioteca.getLivros(), "livros.csv");
-					  		Livro.setContador(0);// salvou no arquivo, zera o contador
-					  	}
+				
+				case 5:
+					System.out.println("Digite o id do livro para atualizar: ");
+					int idatualizar = Integer.parseInt(br.readLine());
+					
+					Livro livroAtualizar = livroDao.findById(idatualizar);
+					System.out.println(livroAtualizar);
+					
+					System.out.println();
+					System.out.println("Qual campo deseja atualizar: ");
+					System.out.println("1 - Título ");
+					System.out.println("2 - Autor ");
+					System.out.println("3 - Ano ");
+					int opcaoAtualizar = Integer.parseInt(br.readLine());
+					switch(opcaoAtualizar) {
+					case 1:
+						System.out.println("Título atual: " + livroAtualizar.getTitulo());
+						System.out.print("Digite o novo título: ");
+						String novoTitulo = br.readLine();
+						livroAtualizar.setTitulo(novoTitulo);
+						break;
+					
+					case 2:
+						System.out.println("Autor atual: " + livroAtualizar.getAutor());
+						System.out.print("Digite o novo autor: ");
+						String novoAutor = br.readLine();
+						livroAtualizar.setAutor(novoAutor);
+						break;
+						
+					case 3:
+						System.out.println("Ano Atual: " + livroAtualizar.getAno());
+						System.out.print("Digite o novo ano: ");
+						Integer novoAno = Integer.parseInt(br.readLine());
+						livroAtualizar.setAno(novoAno);
+						break;
+						
+					default:
+						System.out.println("Opção inválida. Nenhuma alteração local feita.");
+			            return; // Sai do case sem executar o update abaixo
 					}
-					catch(IOException e) {
-						 System.out.println("Erro ao salvar: " + e.getMessage());
-					}
-					break;
+					
+					livroDao.update(livroAtualizar);
+					System.out.println("Banco de dados atualizado com sucesso!");
+				    break;
+				    
 				default:
 					if (opcao1 != 0)
 						System.out.println("Digito invalido.");
@@ -114,14 +163,12 @@ public class MenuLivros {
 				}
 			} // fim while
 		}// fim try
-		catch(IOException e) {
-			System.err.println("Erro de leitura." + e.getMessage());
-		}
+		
 		catch(NumberFormatException e) {
 			System.err.println("Valor invalido. Digite somente numeros.");
 		}
-		catch(DadosException e) {
-			System.err.println("Erro: " + e.getMessage());
+		catch(DbException e) {
+			System.err.println("Erro no banco de dados: " + e.getMessage());
 		}
 		catch(Exception e) {
 			System.err.println("Erro inesperado.");
@@ -130,49 +177,3 @@ public class MenuLivros {
 		
 	}
 }
-
-/*Erros que cometi:
- * 
- * INSTANCIEI BIBLIOTECA DIRETO NO CODIGO ============================================================
- 
-Em classes como MenuLivros, que gerenciam a interação do usuário e 
-precisam acessar serviços centrais do aplicativo, é melhor usar um 
-construtor para obter a instância de Biblioteca.
-
-Instanciar a Biblioteca diretamente na declaração 
-(Biblioteca biblioteca = new Biblioteca();) é a abordagem mais simples, 
-mas a abordagem usando o construtor (chamada de Injeção de Dependência por Construtor) 
-é a melhor prática para projetos em Java.
- 
-Por Que Usar um Construtor (Injeção de Dependência)
-Usar um construtor oferece vantagens significativas:
-
-Flexibilidade e Testabilidade (Melhor Prática):
-
-Se a classe Biblioteca for complexa e difícil de instanciar, ou se for uma interface com
-várias implementações, o construtor permite que você passe a implementação correta de fora, 
-sem que MenuLivros precise saber os detalhes.
-
-Para testes unitários, você pode facilmente passar um objeto Biblioteca mock (falso) para 
-o MenuLivros e testar a classe de menu isoladamente.
-
-Transparência de Dependências:
-
-O construtor deixa claro que a classe MenuLivros depende de uma instância de Biblioteca 
-para funcionar. Qualquer desenvolvedor vendo o construtor saberá imediatamente do que a 
-classe precisa.
-
-NÃO FIZ UM METODO PARA O MENU ====================================================================
-
-O erro principal neste código está na estrutura básica da classe Java. Você colocou o loop 
-while(true) e todo o código de menu diretamente no corpo da classe MenuLivros, fora de 
-qualquer método, construtor, ou bloco de inicialização.
-
-Você deve encapsular toda a lógica do menu (do while(true) até o final do if (opcao1 == 0) break;) 
-dentro de um método, que chamei de exibirMenu() no exemplo abaixo.
-
-A classe que gerencia a aplicação principal (onde você instancia MenuLivros) será responsável 
-por chamar este método.
- * */
-
- 

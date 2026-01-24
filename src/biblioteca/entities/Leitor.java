@@ -1,10 +1,14 @@
 package biblioteca.entities;
 
-import biblioteca.service.Salvar;
+import java.io.Serializable;
 
-public class Leitor implements Salvar{// implemetando a interface Salvar
+//import biblioteca.service.Salvar;
+
+public class Leitor implements Serializable{// implemetando o serializable
 	
-	private static int contador = 0;
+	private static final long serialVersionUID = 1L;
+
+	//private static int contador = 0;
 	
 	private Integer id;//id do leitor
 	private String nome;// nome do leitor
@@ -13,7 +17,7 @@ public class Leitor implements Salvar{// implemetando a interface Salvar
 	
 	//construtor padrão
 	public Leitor() {
-		contador++;
+		//contador++;
 	}
 
 	//construtor com todos os argumentos
@@ -22,7 +26,7 @@ public class Leitor implements Salvar{// implemetando a interface Salvar
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
-		contador++;
+		//contador++;
 	}
 
 	public Integer getId() {
@@ -57,6 +61,7 @@ public class Leitor implements Salvar{// implemetando a interface Salvar
 		this.email = email;
 	}
 	
+	/*
 	public static int getContador() {
 		return contador;
 	}
@@ -64,7 +69,7 @@ public class Leitor implements Salvar{// implemetando a interface Salvar
 		contador = cont;
 	}
 	
-	/*METODO INTERFACE PRA SALVAR EM .CSV*/
+	/*METODO INTERFACE PRA SALVAR EM .CSV
 	@Override
 	public String toCSV() {
 		return id + ";" 
@@ -74,6 +79,7 @@ public class Leitor implements Salvar{// implemetando a interface Salvar
 				  + ";" 
 				  + email;
 	}
+	*/
 	
 	@Override
 	public String toString() {
