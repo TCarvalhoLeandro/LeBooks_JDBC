@@ -12,6 +12,7 @@ import biblioteca.domainException.DadosException;
 import biblioteca.entities.Emprestimo;
 import biblioteca.entities.Leitor;
 import biblioteca.entities.Livro;
+import biblioteca.model.dao.EmprestimoDao;
 
 public class MenuEmprestimo {
 
@@ -19,11 +20,20 @@ public class MenuEmprestimo {
 	
 	DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");// formato de data 
 	
-	Biblioteca biblioteca = new Biblioteca();
+	//Biblioteca biblioteca = new Biblioteca();
+	private EmprestimoDao emprestimoDao;
 	
+	
+	
+	public MenuEmprestimo(BufferedReader br, DateTimeFormatter fmt, EmprestimoDao emprestimoDao) {
+		this.emprestimoDao = emprestimoDao;
+	}
+
+	/*
 	public MenuEmprestimo(Biblioteca biblioteca) {
 		this.biblioteca = biblioteca;
 	}
+	*/
 	
 	public void exibeMenuEmprestimo() {
 		try {

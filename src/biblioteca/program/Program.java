@@ -4,11 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import biblioteca.core.Biblioteca;
-import biblioteca.ui.MenuEmprestimo;
+//import biblioteca.core.Biblioteca;
+import biblioteca.db.DB;
+import biblioteca.model.dao.DaoFactory;
+//import biblioteca.model.dao.EmprestimoDao;
+import biblioteca.model.dao.LeitorDao;
+import biblioteca.model.dao.LivroDao;
+//import biblioteca.ui.MenuEmprestimo;
 import biblioteca.ui.MenuLeitor;
 import biblioteca.ui.MenuLivros;
-import biblioteca.ui.MenuSalvar;
+//import biblioteca.ui.MenuSalvar;
 
 /*FALTA FAZER
 
@@ -25,6 +30,7 @@ public class Program {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+		/*
 		// 1. Cria UMA ÚNICA INSTÂNCIA da Biblioteca (repositório central de dados)
 		Biblioteca bibliotecaPrincipal = new Biblioteca();
 		
@@ -38,9 +44,26 @@ public class Program {
 		// Menu para gerir os salvamentos
 		MenuSalvar menuSalvar = new MenuSalvar(bibliotecaPrincipal);
 
-		/* Os arquivos são carregados e só podem ser modificados atraves dos menus */
+		/* Os arquivos são carregados e só podem ser modificados atraves dos menus 
 		bibliotecaPrincipal.carregarArquivo();// carrega os arquivos .csv
-
+		
+			OBSOLETO
+		*/
+		
+		// 1. Não instanciamos mais a Biblioteca com listas.
+        // 2. Criamos a conexão e as DAOs (usando Factory para ficar profissional)
+		LivroDao livroDao = DaoFactory.createLivroDao();
+		LeitorDao leitorDao = DaoFactory.createLeitorDao();
+		//EmprestimoDao emprestimoDao = DaoFactory.createEmprestimoDao();
+		
+		// 3. Injetamos as DAOs diretamente nos menus
+		MenuLivros menuLivros = new MenuLivros(livroDao);
+		MenuLeitor menuLeitor = new MenuLeitor(leitorDao);
+		
+		// No MenuEmprestimo, você pode passar as três se precisar validar livros/leitores
+		//MenuEmprestimo menuEmprestimo = new MenuEmprestimo(emprestimoDao, livroDao, leitorDao);
+		
+		
 		/* Loop de interação com o usuario */
 		while (true) {
 			try {
@@ -49,7 +72,6 @@ public class Program {
 				System.out.println("1 - Livros");
 				System.out.println("2 - Leitores");
 				System.out.println("3 - Emprestimos e Devolucoes");
-				System.out.println("4 - Salvar e Carregar");
 				System.out.println("0 - Sair");
 				System.out.println();
 				System.out.print("Digite a opção desejada: ");
@@ -64,21 +86,15 @@ public class Program {
 					menuLeitor.exibeMenuLeitor();
 					break;// switch externo (Gerenciar Leitor) case 2
 				case 3:
-					menuEmprestimo.exibeMenuEmprestimo();
+					//menuEmprestimo.exibeMenuEmprestimo();
 					break;// switch externo (Emprestimo e Devolucoes) case 3
-				case 4:
-					menuSalvar.exibeMenuSalvar();
-					break;// switch externo (salvar e carregar) case 4
-				default:
-					if (opcao != 0)
-						System.out.println("Digito invalido.");
-					break;
+				case 0:
+					System.out.println("Encerrando e fechando a conexão....");
+					DB.closseConnection();
+					return;// switch externo (salvar e carregar) case 4
+			
 				}// switch externo (menu principal)
-					// O if (opcao == 0) break; faz encerrar o programa.
-				if (opcao == 0) {
-					System.err.println("Programa encerrado...");
-					break;
-				}
+				
 			} // fim try
 			/*O essencial é que o código que pode falhar (br.readLine() e Integer.parseInt()) 
 			 * esteja DENTRO do try para que os blocos catch possam agir.*/
