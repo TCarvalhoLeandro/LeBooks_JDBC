@@ -1,10 +1,15 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import biblioteca.entities.Emprestimo;
 import biblioteca.entities.Leitor;
+import biblioteca.entities.Livro;
 import biblioteca.model.dao.DaoFactory;
+import biblioteca.model.dao.EmprestimoDao;
 import biblioteca.model.dao.LeitorDao;
 import biblioteca.model.dao.LivroDao;
+import biblioteca.model.dao.impl.EmprestimoDaoJDBC;
 
 
 public class TesteConexao {
@@ -80,14 +85,14 @@ public class TesteConexao {
 		leitorUpdate.setEmail("julia@gmail.com");
 		leitorDao.update(leitorUpdate);
 		System.out.println("Update!!!!!!!!");
-		*/
+		
 		
 		System.out.println("\nTESTE 04: Leitor deleteById");
 		leitorDao.deleteById(3);
 		System.out.println("Delete!!!!!!");
 		
 		
-		/*
+		
 		System.out.println("\nTESTE 05: Leitor findAll ");
 		List<Leitor> list = new ArrayList<Leitor>();
 		list = leitorDao.findAll();
@@ -97,6 +102,46 @@ public class TesteConexao {
 		}
 		*/
 		
+		EmprestimoDao empDao = DaoFactory.createEmprestimoDao();
+		
+		/*
+		System.out.println("\nTESTE 01: Emprestimo insert: ");	
+		Livro livroEmp = livroDao.findById(7);// busco um livro no banco
+		Leitor leitorEmp = leitorDao.findById(5);
+		Emprestimo emprestimo = new Emprestimo(null, leitorEmp, livroEmp, LocalDate.now());
+		emprestimo.setDevolvido(false);
+		emprestimo.setDataDevolucao(LocalDate.now().plusDays(5));
+		empDao.insert(emprestimo);
+		System.out.println("Insert new leitor id: " + emprestimo.getId());
+		
+		
+		System.out.println("\nTESTE 02: Emprestimo findById");
+		Emprestimo emp = empDao.findById(3);
+		System.out.println(emp);
+		
+		
+		
+		System.out.println("\nTESTE 03: Emprestimo registerReturn");
+		Emprestimo emp = empDao.findById(4);
+		empDao.registerReturn(emp);
+		
+		
+		System.out.println("\nTESTE 04: Emprestimo findAll");
+		List<Emprestimo> list = new ArrayList<Emprestimo>();
+		list = empDao.findAll();
+		
+		for(Emprestimo obj: list) {
+			System.out.println(obj);
+		}
+		
+		*/
+		System.out.println("\nTESTE 05: Emprestimo findAtivos");
+		List<Emprestimo> listAtivo = new ArrayList<Emprestimo>();
+		listAtivo = empDao.findAtivos();
+		
+		for(Emprestimo obj: listAtivo) {
+			System.out.println(obj);
+		}
 		
 	}
 }

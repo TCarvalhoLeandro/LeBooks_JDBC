@@ -10,6 +10,7 @@ import java.util.List;
 
 import biblioteca.db.DB;
 import biblioteca.db.DbException;
+import biblioteca.db.DbIntegrityException;
 import biblioteca.entities.Leitor;
 import biblioteca.model.dao.LeitorDao;
 
@@ -94,6 +95,8 @@ public class LeitorDaoJDBC implements LeitorDao{
 	@Override
 	public void deleteById(Integer id) {
 		
+
+		
 		PreparedStatement st = null;
 		
 		try {
@@ -105,7 +108,12 @@ public class LeitorDaoJDBC implements LeitorDao{
 			st.executeUpdate();
 		}
 		catch(SQLException e) {
+			// Verifica se o erro é de integridade referencial
+	        if (e.getErrorCode() == 1451) {
+	            throw new DbIntegrityException("Não é possível excluir o leitor: ele possui empréstimos registrados.");
+	        }
 			throw new DbException(e.getMessage());
+			
 		}
 		finally {
 			DB.closeStatement(st);

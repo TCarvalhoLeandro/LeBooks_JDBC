@@ -8,7 +8,7 @@ public class Emprestimo implements Salvar{// implementando a interface Salvar
 	
 	private static int contador = 0;
 	
-	private int id;// id do emprestimo
+	private Integer id;// id do emprestimo
 	private Leitor leitor;
 	private Livro livro;
 	private LocalDate dataEmprestimo;
@@ -19,7 +19,15 @@ public class Emprestimo implements Salvar{// implementando a interface Salvar
 	public Emprestimo() {
 		contador++;
 	}
-	public Emprestimo(int id, Leitor leitor, Livro livro, LocalDate dataEmprestimo,
+	
+	public Emprestimo(Integer id, Leitor leitor, Livro livro, LocalDate dataEmprestimo) {
+		this.id = id;
+		this.leitor = leitor;
+		this.livro = livro;
+		this.dataEmprestimo = dataEmprestimo;
+	}
+	
+	public Emprestimo(Integer id, Leitor leitor, Livro livro, LocalDate dataEmprestimo,
 			boolean devolvido) {
 		this.id = id;
 		this.leitor = leitor;
@@ -29,7 +37,7 @@ public class Emprestimo implements Salvar{// implementando a interface Salvar
 		contador++;
 	}
 
-	public Emprestimo(int id, Leitor leitor, Livro livro, LocalDate dataEmprestimo, LocalDate dataDevolucao,
+	public Emprestimo(Integer id, Leitor leitor, Livro livro, LocalDate dataEmprestimo, LocalDate dataDevolucao,
 			boolean devolvido) {
 		this.id = id;
 		this.leitor = leitor;
@@ -40,11 +48,11 @@ public class Emprestimo implements Salvar{// implementando a interface Salvar
 		contador++;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

@@ -7,9 +7,9 @@ import biblioteca.entities.Emprestimo;
 public interface EmprestimoDao {
 	
 	void insert(Emprestimo emp);
-	void update(Emprestimo emp);
-	void deleteById(Integer id);
-	Emprestimo findById(Integer id);
+	void registerReturn(Emprestimo emp);
+	List<Emprestimo> findAtivos();// Metodo especifico para devolucao
+	Emprestimo findById(Integer id);//Apenas se o emprestimo for feito por erro (cancelar)
 	List<Emprestimo> findAll();
 
 }
