@@ -42,6 +42,7 @@ src
     │       ├── impl         # Implementações JDBC (Onde o SQL reside)
     │       └── DaoFactory   # Fábrica responsável por instanciar as conexões
     └── db                   # Gerenciamento da conexão com o banco (DBConnection)
+```
 
 ---
 
