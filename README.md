@@ -42,3 +42,11 @@ src
     │       ├── impl         # Implementações JDBC (Onde o SQL reside)
     │       └── DaoFactory   # Fábrica responsável por instanciar as conexões
     └── db                   # Gerenciamento da conexão com o banco (DBConnection)
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+* **Java SE** 
+* **JDBC** (Comunicação com o banco)
+* **MySQL & MySQL Workbench** (Modelagem e gestão do DB)
+* **Git & GitHub** (Versionamento)
