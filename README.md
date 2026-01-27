@@ -57,9 +57,7 @@ src
 ## 🏁 Como Executar
 
 ```markdown
-## 🏁 Como Executar
-
 1.  Clone o repositório.
 2.  Importe o script `database.sql` da pasta database no seu **MySQL Workbench**.
 3.  Configure o arquivo `DBConnection.java` com seu usuário e senha do banco local.
-4.  Execute a classe `Program.java` do pacote 'biblioteca.program'.
+4.  Execute a classe `Program.java` do pacote ´biblioteca.program.
