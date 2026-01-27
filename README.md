@@ -24,3 +24,21 @@ Durante o desenvolvimento, enfrentei desafios distintos em cada abordagem:
 | **Busca de Dados** | Necessário carregar todo o arquivo em memória (Listas). | Filtros otimizados diretamente na query (`WHERE`). |
 | **Relacionamentos** | Complexo (IDs manuais e cruzamento de listas). | Nativo (Chaves Estrangeiras entre `Emprestimo` e `Leitor`). |
 | **Concorrência** | Risco de corromper o arquivo se aberto 2x. | Gerenciado pelo SGBD (Transações ACID). |
+
+---
+
+## 🏗️ Arquitetura e Design Patterns
+
+O projeto foi desenhado com foco na manutenibilidade e no desacoplamento entre a lógica de negócio e a camada de persistência. Para isso, foram utilizados dois padrões principais: **DAO (Data Access Object)** e **Factory Pattern**.
+
+### 📂 Estrutura de Pacotes
+A organização do código segue uma divisão clara de responsabilidades dentro do pacote `biblioteca`:
+
+```text
+src
+└── biblioteca
+    ├── model
+    │   └── dao              # Interfaces (Definem os contratos de acesso aos dados)
+    │       ├── impl         # Implementações JDBC (Onde o SQL reside)
+    │       └── DaoFactory   # Fábrica responsável por instanciar as conexões
+    └── db                   # Gerenciamento da conexão com o banco (DBConnection)
