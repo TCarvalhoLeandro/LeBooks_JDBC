@@ -1,4 +1,4 @@
-package biblioteca.program;
+package biblioteca.main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import biblioteca.ui.MenuLivros;
  * criar metodo para criar um historico
  * adicionar no menu de gerenciamneto de livros, leitores e emprestimos a opcao de salvar*/
 
-public class Program {
+public class Main {
 
 	public static void main(String[] args) {
 

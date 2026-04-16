@@ -1,63 +1,61 @@
 <h1 align="center">Library Management System 📚</h1>
 
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-000000?style=for-the-badge&logo=mysql&logoColor=white)
-![Design Pattern](https://img.shields.io/badge/Pattern-DAO-blue?style=for-the-badge)
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white" alt="Java">
+  <img src="https://img.shields.io/badge/MySQL-000000?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+  <img src="https://img.shields.io/badge/JDBC-Connect-blue?style=for-the-badge" alt="JDBC">
+  <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white" alt="Ubuntu">
+  <img src="https://img.shields.io/badge/Pattern-Repository-green?style=for-the-badge" alt="Repository Pattern">
+  <img src="https://img.shields.io/badge/Architecture-MVC-purple?style=for-the-badge" alt="MVC">
+</p>
 
----
+Este projeto representa o segundo estágio de evolução do **Library Management System**. Após a implementação inicial utilizando arquivos CSV, esta versão foi refatorada para utilizar o **MySQL** como motor de persistência, utilizando a API **JDBC (Java Database Connectivity)**. O foco aqui foi garantir a integridade referencial, performance em consultas e o gerenciamento de conexões.
 
-## 🚀 Sobre o Projeto
+## 📈 A Evolução: Do CSV ao SQL
 
-O objetivo principal deste projeto foi estudar a evolução da persistência de dados. O projeto nasceu salvando informações em arquivos de texto (`.csv`) e, nesta versão atual, foi refatorado para utilizar um banco de dados relacional **MySQL**, garantindo maior integridade e performance.
+A transição para um banco de dados relacional permitiu resolver limitações críticas do sistema baseado em arquivos:
 
-A arquitetura foi desenhada utilizando o padrão **DAO (Data Access Object)**, o que permitiu que a lógica de negócio permanecesse a mesma, alterando apenas a camada de conexão com os dados.
-
----
-
-## 💡 Do Sistema de Arquivos para o Banco de Dados
-
-Durante o desenvolvimento, enfrentei desafios distintos em cada abordagem:
-
-| Característica | (Arquivos .csv) | (MySQL JDBC) |
+| Característica | Persistência em CSV | Persistência em MySQL (JDBC) |
 | :--- | :--- | :--- |
-| **Persistência** | Manipulação direta de I/O (File Reader/Writer). | Consultas SQL via JDBC (Connection/PreparedStatement). |
-| **Busca de Dados** | Necessário carregar todo o arquivo em memória (Listas). | Filtros otimizados diretamente na query (`WHERE`). |
-| **Relacionamentos** | Complexo (IDs manuais e cruzamento de listas). | Nativo (Chaves Estrangeiras entre `Emprestimo` e `Leitor`). |
-| **Concorrência** | Risco de corromper o arquivo se aberto 2x. | Gerenciado pelo SGBD (Transações ACID). |
+| **Busca de Dados** | Varredura sequencial em memória ($O(n)$). | Consultas indexadas e otimizadas ($O(log \ n)$). |
+| **Integridade** | Manual e propensa a erros de ID. | Chaves Estrangeiras e Restrições (Constraints). |
+| **Concorrência** | Risco de corrupção de arquivo. | Transações seguras (Propriedades ACID). |
+| **Escalabilidade** | Limitada pelo tamanho da RAM. | Suporta milhões de registros com eficiência. |
 
----
+## 🏗️ Arquitetura e Padrões de Projeto
 
-## 🏗️ Arquitetura e Design Patterns
+O projeto segue os princípios de **Inversão de Controle (IoC)** e **Injeção de Dependência**, garantindo que a lógica de negócio seja independente da tecnologia de banco de dados.
 
-O projeto foi desenhado com foco na manutenibilidade e no desacoplamento entre a lógica de negócio e a camada de persistência. Para isso, foram utilizados dois padrões principais: **DAO (Data Access Object)** e **Factory Pattern**.
-
-### 📂 Estrutura de Pacotes
-A organização do código segue uma divisão clara de responsabilidades dentro do pacote `biblioteca`:
-
-```text
-src
-└── biblioteca
-    ├── model
-    │   └── dao              # Interfaces (Definem os contratos de acesso aos dados)
-    │       ├── impl         # Implementações JDBC (Onde o SQL reside)
-    │       └── DaoFactory   # Fábrica responsável por instanciar as conexões
-    └── db                   # Gerenciamento da conexão com o banco (DBConnection)
-```
-
----
+* **Repository Pattern:** Evolução do antigo padrão DAO, tratando a persistência como coleções de objetos de domínio.
+* **Factory Pattern:** Centralização da criação de instâncias de Repositórios, desacoplando a implementação JDBC do restante do sistema.
+* **Singleton:** Aplicado na gestão da conexão com o banco (`DBConnection`) para garantir uma única instância do objeto de conexão.
+* **Tratamento de Exceções:** Implementação de camadas de captura para `SQLException`, convertendo-as em exceções de domínio mais claras para o utilizador.
 
 ## 🛠️ Tecnologias Utilizadas
-* **Java SE** 
-* **JDBC** (Comunicação com o banco)
-* **MySQL & MySQL Workbench** (Modelagem e gestão do DB)
-* **Git & GitHub** (Versionamento)
 
----
+* **Linguagem:** Java 
+* **Persistência:** JDBC (Java Database Connectivity)
+* **Banco de Dados:** MySQL
+* **Driver:** MySQL Connector
+* **Arquitetura:** MVC com Repository Pattern
 
-## 🏁 Como Executar
+## 🚀 Como Executar o Projeto
 
-```markdown
-1.  Clone o repositório.
-2.  Importe o script `database.sql` da pasta database no seu **MySQL Workbench**.
-3.  Configure o arquivo `DBConnection.java` com seu usuário e senha do banco local.
-4.  Execute a classe `Program.java` do pacote ´biblioteca.program.
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/TCarvalhoLeandro/library-manager-JDBC.git
+
+2. Configure o Banco de Dados:
+
+    -Importe o script database.sql (disponível na pasta /sql) no seu MySQL Workbench.
+
+    -Configure as credenciais de acesso (URL, User, Password) no arquivo db.properties ou na classe DBConnection.
+
+3. Importe o Driver: Certifique-se de que o .jar do MySQL Connector está adicionado ao Classpath do projeto.
+
+4. Execute: Rode a classe Main.java para iniciar o menu interativo no terminal.
+
+👨‍💻 Autor
+Leandro Carvalho
+
+🔗 <a href="https://www.google.com/search?q=https://www.linkedin.com/in/leandrocarvalho1979" target="_blank">LinkedIn</a>
