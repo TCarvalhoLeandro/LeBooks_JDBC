@@ -17,7 +17,7 @@ A transição para um banco de dados relacional permitiu resolver limitações c
 
 | Característica | Persistência em CSV | Persistência em MySQL (JDBC) |
 | :--- | :--- | :--- |
-| **Busca de Dados** | Varredura sequencial em memória ($O(n)$). | Consultas indexadas e otimizadas ($O(log \ n)$). |
+| **Busca de Dados** | Varredura sequencial em memória. | Consultas indexadas e otimizadas. |
 | **Integridade** | Manual e propensa a erros de ID. | Chaves Estrangeiras e Restrições (Constraints). |
 | **Concorrência** | Risco de corrupção de arquivo. | Transações seguras (Propriedades ACID). |
 | **Escalabilidade** | Limitada pelo tamanho da RAM. | Suporta milhões de registros com eficiência. |
