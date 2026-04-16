@@ -58,4 +58,4 @@ O projeto segue os princípios de **Inversão de Controle (IoC)** e **Injeção 
 👨‍💻 Autor
 Leandro Carvalho
 
-🔗 <a href="https://www.google.com/search?q=https://www.linkedin.com/in/leandrocarvalho1979" target="_blank">LinkedIn</a>
+🔗 <a href="https://www.linkedin.com/in/leandrocarvalho1979" target="blank">LinkedIn</a>
