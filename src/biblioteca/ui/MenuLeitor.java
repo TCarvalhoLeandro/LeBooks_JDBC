@@ -8,8 +8,7 @@ import java.util.List;
 import biblioteca.db.DbException;
 
 import biblioteca.entities.Leitor;
-
-import biblioteca.model.dao.LeitorDao;
+import biblioteca.repository.LeitorDao;
 
 public class MenuLeitor {
 

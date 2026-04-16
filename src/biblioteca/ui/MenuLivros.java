@@ -10,7 +10,7 @@ import java.util.List;
 import biblioteca.db.DbException;
 import biblioteca.domainException.DadosException;
 import biblioteca.entities.Livro;
-import biblioteca.model.dao.LivroDao;
+import biblioteca.repository.LivroDao;
 
 
 public class MenuLivros {

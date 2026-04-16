@@ -1,4 +1,4 @@
-package biblioteca.model.dao.impl;
+package biblioteca.repository.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import biblioteca.db.DB;
 import biblioteca.db.DbException;
 import biblioteca.db.DbIntegrityException;
 import biblioteca.entities.Leitor;
-import biblioteca.model.dao.LeitorDao;
+import biblioteca.repository.LeitorDao;
 
 public class LeitorDaoJDBC implements LeitorDao{
 	

@@ -6,11 +6,10 @@ import java.io.InputStreamReader;
 
 //import biblioteca.core.Biblioteca;
 import biblioteca.db.DB;
-import biblioteca.model.dao.DaoFactory;
-import biblioteca.model.dao.EmprestimoDao;
-//import biblioteca.model.dao.EmprestimoDao;
-import biblioteca.model.dao.LeitorDao;
-import biblioteca.model.dao.LivroDao;
+import biblioteca.repository.DaoFactory;
+import biblioteca.repository.EmprestimoDao;
+import biblioteca.repository.LeitorDao;
+import biblioteca.repository.LivroDao;
 import biblioteca.ui.MenuEmprestimo;
 //import biblioteca.ui.MenuEmprestimo;
 import biblioteca.ui.MenuLeitor;

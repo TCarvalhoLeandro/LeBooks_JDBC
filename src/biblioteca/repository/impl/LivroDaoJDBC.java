@@ -1,4 +1,4 @@
-package biblioteca.model.dao.impl;
+package biblioteca.repository.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.util.List;
 import biblioteca.db.DB;
 import biblioteca.db.DbException;
 import biblioteca.entities.Livro;
-import biblioteca.model.dao.LivroDao;
+import biblioteca.repository.LivroDao;
 
 public class LivroDaoJDBC implements LivroDao{
 

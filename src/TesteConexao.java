@@ -5,11 +5,11 @@ import java.util.List;
 import biblioteca.entities.Emprestimo;
 import biblioteca.entities.Leitor;
 import biblioteca.entities.Livro;
-import biblioteca.model.dao.DaoFactory;
-import biblioteca.model.dao.EmprestimoDao;
-import biblioteca.model.dao.LeitorDao;
-import biblioteca.model.dao.LivroDao;
-import biblioteca.model.dao.impl.EmprestimoDaoJDBC;
+import biblioteca.repository.DaoFactory;
+import biblioteca.repository.EmprestimoDao;
+import biblioteca.repository.LeitorDao;
+import biblioteca.repository.LivroDao;
+import biblioteca.repository.impl.EmprestimoDaoJDBC;
 
 
 public class TesteConexao {

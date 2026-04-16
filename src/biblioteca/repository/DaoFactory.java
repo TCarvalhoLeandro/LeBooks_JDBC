@@ -1,9 +1,9 @@
-package biblioteca.model.dao;
+package biblioteca.repository;
 
 import biblioteca.db.DB;
-import biblioteca.model.dao.impl.EmprestimoDaoJDBC;
-import biblioteca.model.dao.impl.LeitorDaoJDBC;
-import biblioteca.model.dao.impl.LivroDaoJDBC;
+import biblioteca.repository.impl.EmprestimoDaoJDBC;
+import biblioteca.repository.impl.LeitorDaoJDBC;
+import biblioteca.repository.impl.LivroDaoJDBC;
 
 public class DaoFactory {
 	

@@ -1,4 +1,4 @@
-package biblioteca.model.dao.impl;
+package biblioteca.repository.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +16,7 @@ import biblioteca.db.DbException;
 import biblioteca.entities.Emprestimo;
 import biblioteca.entities.Leitor;
 import biblioteca.entities.Livro;
-import biblioteca.model.dao.EmprestimoDao;
+import biblioteca.repository.EmprestimoDao;
 
 
 public class EmprestimoDaoJDBC implements EmprestimoDao{
