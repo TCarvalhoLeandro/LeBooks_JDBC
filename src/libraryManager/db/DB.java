@@ -1,4 +1,4 @@
-package biblioteca.db;
+package libraryManager.db;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class DB {
 	private static Connection conn = null;// Objeto de conexao com o Banco de Dados do jdbc
 	
 
-	// METODO PARA CARREGAR O ARQUIVO db.properties
+	// METODO PARA LER O ARQUIVO db.properties
 	private static Properties loadProperties() {
 		try (FileInputStream fs = new FileInputStream("db.properties")){
 			
@@ -31,22 +31,18 @@ public class DB {
 	
 	// METODO PARA CONECTAR COM O BANCO
 	public static Connection getConnection() {
-		
-		if(conn == null) {
-			try {
-				Properties props = loadProperties();// peguei as propriedades do banco de dados
-				
-				String url = props.getProperty("dburl");// peguei a url do banco
-				
-				conn = DriverManager.getConnection(url, props);// conectamos com o banco de dados
-				
-				//Conectar com o banco de dados pelo jdbc é instanciar um objeto do tipo Connection
-			}
-			catch(SQLException e) {
-				throw new DbException(e.getMessage());
-			}
+		try {
+			Properties props = loadProperties();// peguei as propriedades do banco de dados
+			
+			String url = props.getProperty("dburl");// peguei a url do banco
+			
+			return DriverManager.getConnection(url, props);// conectamos com o banco de dados
+			
+			//Conectar com o banco de dados pelo jdbc é instanciar um objeto do tipo Connection
 		}
-		return conn;
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}	
 	}
 	
 	

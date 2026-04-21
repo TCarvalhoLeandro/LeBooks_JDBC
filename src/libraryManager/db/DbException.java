@@ -1,4 +1,4 @@
-package biblioteca.db;
+package libraryManager.db;
 
 // EXCECAO PERSSONALIZADA
 

@@ -1,32 +1,29 @@
-package biblioteca.entities;
+package libraryManager.entities;
+
 
 import java.io.Serializable;
+import java.util.Objects;
 
-//import biblioteca.service.Salvar;
-
-public class Leitor implements Serializable{// implemetando o serializable
+//JDBC
+public class Leitor implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-
-	//private static int contador = 0;
 	
-	private Integer id;//id do leitor
-	private String nome;// nome do leitor
-	private String cpf;//cpf do leitor
-	private String email;//email do leitor
+	private Integer id;
+	private String nome;
+	private String cpf;
+	private String email;
 	
-	//construtor padrão
 	public Leitor() {
-		//contador++;
+		
 	}
 
-	//construtor com todos os argumentos
 	public Leitor(Integer id, String nome, String cpf, String email) {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
-		//contador++;
+
 	}
 
 	public Integer getId() {
@@ -61,26 +58,24 @@ public class Leitor implements Serializable{// implemetando o serializable
 		this.email = email;
 	}
 	
-	/*
-	public static int getContador() {
-		return contador;
-	}
-	public static void setContador(int cont) {
-		contador = cont;
-	}
 	
-	/*METODO INTERFACE PRA SALVAR EM .CSV
 	@Override
-	public String toCSV() {
-		return id + ";" 
-				  + nome 
-				  + ";" 
-				  + cpf 
-				  + ";" 
-				  + email;
+	public int hashCode() {
+		return Objects.hash(id);
 	}
-	*/
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Leitor other = (Leitor) obj;
+		return Objects.equals(id, other.id);
+	}
+
 	@Override
 	public String toString() {
 		return id + " - " + nome + " - (" + cpf + ") - " + email;

@@ -1,4 +1,4 @@
-package biblioteca.db;
+package libraryManager.db;
 
 public class DbIntegrityException extends RuntimeException{
 
