@@ -1,4 +1,4 @@
-<h1 align="center">📚 Library Management System</h1>
+<h1 align="center">📚 LeBooks - Library System</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white" alt="Java">
