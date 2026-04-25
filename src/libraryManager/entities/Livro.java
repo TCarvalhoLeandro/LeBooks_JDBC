@@ -9,7 +9,7 @@ public class Livro implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
+	private Long id;
 	private String titulo;
 	private Autor autor;
 	private Integer ano;
@@ -19,9 +19,15 @@ public class Livro implements Serializable{
 	public Livro() {
 	
 	}
+	
+	public Livro(String titulo, Autor autor, Integer ano, boolean disponivel) {
+		this.titulo = titulo;
+		this.autor = autor;
+		this.ano = ano;
+		this.disponivel = disponivel;
+	}
 
-
-	public Livro(Integer id, String titulo, Autor autor, Integer ano, boolean disponivel) {
+	public Livro(Long id, String titulo, Autor autor, Integer ano, boolean disponivel) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
@@ -31,55 +37,45 @@ public class Livro implements Serializable{
 	}
 
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public String getTitulo() {
 		return titulo;
 	}
 
-
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-
 
 	public Autor getAutor() {
 		return autor;
 	}
 
-
 	public void setAutor(Autor autor) {
 		this.autor = autor;
 	}
-
 
 	public Integer getAno() {
 		return ano;
 	}
 
-
 	public void setAno(Integer ano) {
 		this.ano = ano;
 	}
-
 
 	public boolean isDisponivel() {
 		return disponivel;
 	}
 
-
 	public void setDisponivel(boolean disponivel) {
 		this.disponivel = disponivel;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -99,12 +95,9 @@ public class Livro implements Serializable{
 		return Objects.equals(id, other.id);
 	}
 
-
 	@Override
 	public String toString() {
-		return "Livro [id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", ano=" + ano + ", disponivel="
-				+ disponivel + "]";
+		return id + " - " + titulo + " - " + autor.getNome() + " - " + ano;
 	}
-	
-	
+
 }

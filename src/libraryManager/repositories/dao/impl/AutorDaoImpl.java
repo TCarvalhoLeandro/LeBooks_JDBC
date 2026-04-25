@@ -13,9 +13,9 @@ import libraryManager.entities.Autor;
 import libraryManager.repositories.dao.AutorDAO;
 
 public class AutorDaoImpl implements AutorDAO {
-
+	
 	private Connection conn;
-
+	
 	public AutorDaoImpl(Connection conn) {
 		this.conn = conn;
 	}

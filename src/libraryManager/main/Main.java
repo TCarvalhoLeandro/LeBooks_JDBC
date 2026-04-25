@@ -3,13 +3,16 @@ package libraryManager.main;
 import java.util.Scanner;
 
 import libraryManager.view.AutorView;
+import libraryManager.view.LivroView;
 
 public class Main {
 
 	public static void main(String[] args) {
+		
 		Scanner sc = new Scanner(System.in);
 		
 		AutorView autorView = new AutorView(sc);
+		LivroView livroView = new LivroView(sc);
 		
 		int opcao = -1;
 		while (opcao != 0) {
@@ -27,7 +30,8 @@ public class Main {
 				autorView.telaAutor();
 				break;
 			case 2:
-				
+				sc.nextLine();
+				livroView.telaLivro();
 				break;
 			case 3:
 			
