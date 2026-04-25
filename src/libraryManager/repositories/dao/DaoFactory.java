@@ -2,6 +2,7 @@ package libraryManager.repositories.dao;
 
 import libraryManager.db.DB;
 import libraryManager.repositories.dao.impl.AutorDaoImpl;
+import libraryManager.repositories.dao.impl.LeitorDaoImpl;
 import libraryManager.repositories.dao.impl.LivroDaoImpl;
 
 public class DaoFactory {
@@ -12,5 +13,9 @@ public class DaoFactory {
 	
 	public static LivroDAO createLivroDao() {
 		return new LivroDaoImpl(DB.getConnection(), createAutorDao());
+	}
+	
+	public static LeitorDAO createLeitorDao() {
+		return new LeitorDaoImpl(DB.getConnection());
 	}
 }

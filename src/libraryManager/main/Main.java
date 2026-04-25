@@ -3,6 +3,7 @@ package libraryManager.main;
 import java.util.Scanner;
 
 import libraryManager.view.AutorView;
+import libraryManager.view.LeitorView;
 import libraryManager.view.LivroView;
 
 public class Main {
@@ -13,6 +14,7 @@ public class Main {
 		
 		AutorView autorView = new AutorView(sc);
 		LivroView livroView = new LivroView(sc);
+		LeitorView leitorView = new LeitorView(sc);
 		
 		int opcao = -1;
 		while (opcao != 0) {
@@ -34,7 +36,7 @@ public class Main {
 				livroView.telaLivro();
 				break;
 			case 3:
-			
+				leitorView.telaLeitor();
 				break;
 			case 0:
 				System.out.println("Encerrando o sistema...");

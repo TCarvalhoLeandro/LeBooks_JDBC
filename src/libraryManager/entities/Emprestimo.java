@@ -8,59 +8,49 @@ public class Emprestimo implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
-	private Integer leitor_id;
-	private Integer livro_id;
-	private boolean devolvido;
+	private Long id;
+	private Leitor leitor;
+	private Livro livro;
 	private LocalDate dataEmprestimo;
 	private LocalDate dataDevolucao;
+	private LocalDate dataDevolucaoEfetiva;
 	
 	public Emprestimo() {
 	
 	}
-	
-	public Emprestimo(Integer id, Integer leitor_id, Integer livro_id, boolean devolvido, LocalDate dataEmprestimo,
-			LocalDate dataDevolucao) {
+
+	public Emprestimo(Long id, Leitor leitor, Livro livro, LocalDate dataEmprestimo,
+			LocalDate dataDevolucao, LocalDate dataDevolucaoEfetiva) {
 		this.id = id;
-		this.leitor_id = leitor_id;
-		this.livro_id = livro_id;
-		this.devolvido = devolvido;
+		this.leitor = leitor;
+		this.livro = livro;
 		this.dataEmprestimo = dataEmprestimo;
 		this.dataDevolucao = dataDevolucao;
+		this.dataDevolucaoEfetiva = dataDevolucaoEfetiva;
 	}
 
-	
-	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Integer getLeitor_id() {
-		return leitor_id;
+	public Leitor getLeitor() {
+		return leitor;
 	}
 
-	public void setLeitor_id(Integer leitor_id) {
-		this.leitor_id = leitor_id;
+	public void setLeitor(Leitor leitor) {
+		this.leitor = leitor;
 	}
 
-	public Integer getLivro_id() {
-		return livro_id;
+	public Livro getLivro() {
+		return livro;
 	}
 
-	public void setLivro_id(Integer livro_id) {
-		this.livro_id = livro_id;
-	}
-
-	public boolean isDevolvido() {
-		return devolvido;
-	}
-
-	public void setDevolvido(boolean devolvido) {
-		this.devolvido = devolvido;
+	public void setLivro(Livro livro) {
+		this.livro = livro;
 	}
 
 	public LocalDate getDataEmprestimo() {
@@ -79,10 +69,21 @@ public class Emprestimo implements Serializable{
 		this.dataDevolucao = dataDevolucao;
 	}
 
-	@Override
-	public String toString() {
-		return "Emprestimo [id=" + id + ", leitor_id=" + leitor_id + ", livro_id=" + livro_id + ", devolvido="
-				+ devolvido + ", dataEmprestimo=" + dataEmprestimo + ", dataDevolucao=" + dataDevolucao + "]";
+	public LocalDate getDataDevolucaoEfetiva() {
+		return dataDevolucaoEfetiva;
 	}
 
+	public void setDataDevolucaoEfetiva(LocalDate dataDevolucaoEfetiva) {
+		this.dataDevolucaoEfetiva = dataDevolucaoEfetiva;
+	}
+	
+	public boolean isPendente() {
+		return this.dataDevolucaoEfetiva == null;
+	}
+
+	@Override
+	public String toString() {
+		return id + " - " + leitor.getNome() + " - " + livro.getTitulo()
+				+ " - " + dataEmprestimo + " - " + dataDevolucao + " - " + dataDevolucaoEfetiva;
+	}
 }

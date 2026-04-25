@@ -2,6 +2,8 @@ package libraryManager.entities;
 
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 //JDBC
@@ -9,28 +11,40 @@ public class Leitor implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
+	private Long id;
 	private String nome;
 	private String cpf;
 	private String email;
+	private LocalDate dataNascimento;
 	
 	public Leitor() {
 		
 	}
 
-	public Leitor(Integer id, String nome, String cpf, String email) {
+	public Leitor(String nome, String cpf, String email, LocalDate dataNascimento) {
+		super();
+		this.nome = nome;
+		this.cpf = cpf;
+		this.email = email;
+		this.dataNascimento = dataNascimento;
+	}
+
+	public Leitor(Long id, String nome, String cpf, String email, LocalDate dataNascimento) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
-
+		this.dataNascimento = dataNascimento;
 	}
 
-	public Integer getId() {
+
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -57,8 +71,15 @@ public class Leitor implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -78,6 +99,22 @@ public class Leitor implements Serializable{
 
 	@Override
 	public String toString() {
-		return id + " - " + nome + " - (" + cpf + ") - " + email;
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(id);
+		sb.append(" - ");
+		sb.append(nome);
+		sb.append(" - ");
+		sb.append(cpf);
+		sb.append(" - ");
+		sb.append(email);
+		sb.append(" - ");
+		String dataFmt = dataNascimento.format(fmt);
+		sb.append(dataFmt);
+		
+		return sb.toString();
 	}
+	
+	
 }
