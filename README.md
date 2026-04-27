@@ -50,15 +50,17 @@ O projeto segue os princípios de **Inversão de Controle (IoC)** e **Injeção 
 
 2. **Configure o Banco de Dados:**
 
-    Importe o script database.sql (disponível na pasta /sql) no seu MySQL Workbench.
+    Abra o seu banco de dados (MySQL Workbench/DBeaver).
 
-    Configure as credenciais de acesso (URL, User, Password) no arquivo db.properties ou na classe DBConnection.
+   Execute o script `database/cria_e_popula.sql` para criar o banco e inserir os dados de teste.
 
-3. **Importe o Driver:**
+    Configure as credenciais de acesso (URL, User, Password) no arquivo db.properties.
+
+4. **Importe o Driver:**
 
     Certifique-se de que o .jar do MySQL Connector está adicionado ao Classpath do projeto.
 
-4. **Execute:** 
+5. **Execute:** 
 
     Rode a classe Main.java para iniciar o menu interativo no terminal.
 
