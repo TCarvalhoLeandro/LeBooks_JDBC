@@ -2,25 +2,33 @@ package libraryManager.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 //JDBC
-public class Emprestimo implements Serializable{
-	
+public class Emprestimo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
 	private Leitor leitor;
 	private Livro livro;
 	private LocalDate dataEmprestimo;
 	private LocalDate dataDevolucao;
 	private LocalDate dataDevolucaoEfetiva;
-	
+
 	public Emprestimo() {
-	
+
 	}
 
-	public Emprestimo(Long id, Leitor leitor, Livro livro, LocalDate dataEmprestimo,
-			LocalDate dataDevolucao, LocalDate dataDevolucaoEfetiva) {
+	public Emprestimo(Leitor leitor, Livro livro, LocalDate dataEmprestimo, LocalDate dataDevolucao) {
+		this.leitor = leitor;
+		this.livro = livro;
+		this.dataEmprestimo = dataEmprestimo;
+		this.dataDevolucao = dataDevolucao;
+	}
+
+	public Emprestimo(Long id, Leitor leitor, Livro livro, LocalDate dataEmprestimo, LocalDate dataDevolucao,
+			LocalDate dataDevolucaoEfetiva) {
 		this.id = id;
 		this.leitor = leitor;
 		this.livro = livro;
@@ -76,14 +84,37 @@ public class Emprestimo implements Serializable{
 	public void setDataDevolucaoEfetiva(LocalDate dataDevolucaoEfetiva) {
 		this.dataDevolucaoEfetiva = dataDevolucaoEfetiva;
 	}
-	
+
 	public boolean isPendente() {
 		return this.dataDevolucaoEfetiva == null;
 	}
 
 	@Override
 	public String toString() {
-		return id + " - " + leitor.getNome() + " - " + livro.getTitulo()
-				+ " - " + dataEmprestimo + " - " + dataDevolucao + " - " + dataDevolucaoEfetiva;
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		StringBuilder sb = new StringBuilder();
+
+	
+		sb.append(id);
+		sb.append(" - ");
+		sb.append(leitor.getNome());
+		sb.append(" - ");
+		sb.append(livro.getTitulo());
+		sb.append(" - ");
+		sb.append("Empréstimo: ");
+		sb.append(dataEmprestimo.format(fmt));
+		sb.append(" - ");
+		sb.append("Devolução prevista: ");
+		sb.append(dataDevolucao.format(fmt));
+		sb.append(" - ");
+		sb.append("Devolução: ");
+		if(dataDevolucaoEfetiva == null) {
+			sb.append(" --- ");
+		}else {
+			sb.append(dataDevolucaoEfetiva.format(fmt));
+		}
+		
+
+		return sb.toString();
 	}
 }
