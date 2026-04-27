@@ -91,7 +91,10 @@ Nesta etapa, o armazenamento em arquivos `.csv` foi substituído por um banco de
 
 ## 💻 Resultado
 <p align="center">
-  <img src= images/Captura de tela de 2026-04-21 12-17-03.png>
+   <img src= "https://github.com/TCarvalhoLeandro/LeBooks_JDBC/blob/main/images/img1.png" alt="Resultado do LeBooks" width="400">
+   <img src= "https://github.com/TCarvalhoLeandro/LeBooks_JDBC/blob/main/images/img2.png" alt="Resultado do LeBooks" width="400">
+   <img src= "https://github.com/TCarvalhoLeandro/LeBooks_JDBC/blob/main/images/img3.png" alt="Resultado do LeBooks" width="400">
+   <img src= "https://github.com/TCarvalhoLeandro/LeBooks_JDBC/blob/main/images/img4.png" alt="Resultado do LeBooks" width="400">
 </p>
 
 ---
