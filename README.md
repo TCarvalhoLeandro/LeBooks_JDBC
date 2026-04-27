@@ -88,7 +88,9 @@ Nesta etapa, o armazenamento em arquivos `.csv` foi substituído por um banco de
 ---
 
 ## 💻 Resultado
-
+<p align="center">
+  <img src= images/Captura de tela de 2026-04-21 12-17-03.png>
+</p>
 
 ---
 
